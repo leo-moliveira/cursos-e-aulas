@@ -1,0 +1,31 @@
+<script>
+$(document).ready(function(){
+  $('#errolog').hide();
+  $('#cadastro-form').submit(function(){
+    var nome=$('#inputFName').val();
+    var cpf=$('#inputCPF').val();
+    var email=$('#inputEmail').val();
+    var endereco=$('#inputEndereco').val();
+    var cep=$('#inputZip').val();
+    var senha=$('#inputPassword').val();
+    var cidade=$('#inputCidade').val();
+    var estado=$('#inputEstado').val();
+    var servico=$('#inputServico').val();
+    var descicao=$('#inputDesc').val();
+    var foto=$('#inputFoto').val();
+    var tarifa=$('#inputTarifa').val();
+    var dados= "nome="+nome+"&cpf="+&cpf+"&email="+email+"&endereco="+endereco+"&cep="+cep+"&senha="+senha+"&cidade="+cidade+"&estado="+estado+"&servico="+servico+"&descicao="+descicao+"&foto="+foto+"&tarifa="+tarifa;
+    $.ajax({
+      url:"cadastro.php",
+      type:"post",
+      data: dados,
+
+      success: function( data )
+				{
+					alert( data );
+				}
+      });
+  			return false;
+  		});
+  	});
+</script>
