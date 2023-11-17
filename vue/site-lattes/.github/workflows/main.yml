@@ -1,0 +1,34 @@
+name: Vue
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: |
+              yarn install;
+              yarn build;
+              cd dist
+              ln -s index.html 404.html
+              git config --global user.email "leo.oliveira8@gmail.com"
+              git config --global user.name "Leonardo Oliveira"
+              git init
+              git add -A
+              git commit -m 'build'
+              git push -f https://leo-moliveira:${{ secrets.GITHUB_TOKEN }}@github.com/leo-moliveira/site-lattes.git master:gh-pages

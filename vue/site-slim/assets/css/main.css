@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer {
+    * {
+        scroll-behavior: smooth;
+    }
+    .scroll-var-delay {
+        /* Pause the animation
+        animation-play-state: paused;*/
+        /* Bind the animation to scroll*/
+        animation-delay: calc(var(--scroll) * -1s);
+        /* These last 2 properites clean up overshoot weirdness*/
+        animation-iteration-count: 1;
+        animation-fill-mode: both;
+    }
+
+    .bg-image-1 {
+        background-image: url("/img/1.jpg");
+    }
+
+    .bg-image-2 {
+        background-image: url("/img/2.jpg");
+    }
+
+    .bg-image-3 {
+        background-image: url("/img/3.jpg");
+    }
+
+    .reveal {
+        opacity: 0;
+        position: relative;
+        animation-iteration-count: 1;
+        animation-fill-mode: both;
+        animation-play-state: paused;
+    }
+
+    .reveal.active {
+        animation-fill-mode: forwards;
+        animation-play-state: running;
+    }
+
+    .active.fade-top {
+        animation-name: fade-top;
+        animation-duration: 1s;
+        animation-timing-function: ease-in;
+    }
+
+    .active.fade-bottom {
+        animation-name: fade-bottom;
+        animation-duration: 1s;
+        animation-timing-function: ease-in;
+    }
+    .active.fade-left {
+        animation-name: fade-left;
+        animation-duration: 1s;
+        animation-timing-function: ease-in;
+    }
+    .active.fade-right {
+        animation-name: fade-right;
+        animation-duration: 1s;
+        animation-timing-function: ease-in;
+    }
+
+    .active > .reveal {
+        animation-delay: 1s;
+    }
+    @keyframes fade-top {
+        0% {
+            transform: translateY(-100px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(10px);
+            opacity: 1;
+        }
+    }
+
+    @keyframes fade-bottom {
+        0% {
+            transform: translateY(50px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    @keyframes fade-left {
+        0% {
+            transform: translateX(-100px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes fade-right {
+        0% {
+            transform: translateX(100px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    d-contents {
+        display: contents;
+    }
+}
