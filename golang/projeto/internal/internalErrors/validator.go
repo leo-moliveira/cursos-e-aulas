@@ -3,6 +3,7 @@ package internalErrors
 import (
 	"errors"
 	"github.com/go-playground/validator/v10"
+	"strings"
 )
 
 func ValidateStruct(obj interface{}) error {
@@ -13,16 +14,17 @@ func ValidateStruct(obj interface{}) error {
 	}
 	validationErrors := err.(validator.ValidationErrors)
 	validationError := validationErrors[0]
+	field := strings.ToLower(validationError.StructField())
 
 	switch validationError.Tag() {
 	case "required":
-		return errors.New(validationError.StructField() + " is required")
+		return errors.New(field + " is required")
 	case "max":
-		return errors.New(validationError.StructField() + " is required with max" + validationError.Param())
+		return errors.New(field + " is required with max " + validationError.Param())
 	case "min":
-		return errors.New(validationError.StructField() + " is required with min" + validationError.Param())
+		return errors.New(field + " is required with min " + validationError.Param())
 	case "email":
-		return errors.New(validationError.StructField() + " is invalid ")
+		return errors.New(field + " is invalid")
 
 	}
 	return nil

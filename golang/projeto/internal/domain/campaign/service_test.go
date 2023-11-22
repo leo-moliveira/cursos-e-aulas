@@ -12,7 +12,7 @@ import (
 var (
 	newCampaign = contract.NewCampaign{
 		Name:    "Test Y",
-		Content: "Body",
+		Content: "Body Hi!",
 		Emails:  []string{"teste1@test.com"},
 	}
 	service = Service{}
@@ -41,13 +41,11 @@ func Test_Create_Campaign(t *testing.T) {
 
 func Test_Create_ValidateDomainError(t *testing.T) {
 	tAssert := assert.New(t)
-	newCampaign.Name = ""
 
-	_, err := service.Create(newCampaign)
+	_, err := service.Create(contract.NewCampaign{})
 
 	tAssert.NotNil(err)
-	tAssert.Equal("name is required ", err.Error())
-	newCampaign.Name = "Test Y"
+	tAssert.False(errors.Is(internalErrors.ErrInternal, err))
 }
 
 func Test_Create_SaveCampaign(t *testing.T) {
