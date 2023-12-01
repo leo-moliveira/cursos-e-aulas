@@ -1,0 +1,7 @@
+POST http://{{domain}}:{{port}}/campaigns
+
+{
+"name": "mouse",
+"content": "change passowrd",
+"emails" : ["teste@teste.com.br"]
+}

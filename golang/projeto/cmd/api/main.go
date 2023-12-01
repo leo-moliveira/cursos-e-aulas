@@ -1,79 +1,45 @@
 package main
 
 import (
-	"encoding/json"
+	"emailn/internal/contract"
+	"emailn/internal/domain/campaign"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
 	"net/http"
 )
 
-type product struct {
-	ID   int
-	Name string
-}
-
-// type myHandler struct{}
-//
-//	func (m myHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-//		w.Write([]byte("myHandler")) //default golang
-//	}
 func main() {
 	r := chi.NewRouter()
-	r.Use(myMiddleware2)
-	r.Use(myMiddleware)
-	//m := myHandler{}
-	//r.Handle("/handler", m)
 
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		param := r.URL.Query().Get("name")
-		println("endpoint")
-		msg := "HOME"
+	r.Use(middleware.RequestID)
+	r.Use(middleware.RealIP)
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
 
-		if param != "" {
-			msg = param
+	service := campaign.Service{}
+
+	r.Post("/campaigns", func(w http.ResponseWriter, r *http.Request) {
+		var request contract.NewCampaign
+		jsonErr := render.DecodeJSON(r.Body, &request)
+
+		if jsonErr != nil {
+			render.Status(r, 500)
+			render.JSON(w, r, map[string]string{"error": jsonErr.Error()})
+			return
 		}
 
-		w.Write([]byte(msg))
-	})
+		id, err := service.Create(request)
 
-	r.Get("/{productName}", func(w http.ResponseWriter, r *http.Request) {
-		param := chi.URLParam(r, "productName")
-		w.Write([]byte(param))
-	})
+		if err != nil {
+			render.Status(r, 400)
+			render.JSON(w, r, map[string]string{"error": err.Error()})
+			return
+		}
 
-	r.Get("/json", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		obj := map[string]string{"message": "success"}
-		b, _ := json.Marshal(obj)
-		w.Write(b)
-	})
-
-	r.Get("/json2", func(w http.ResponseWriter, r *http.Request) {
-		obj := map[string]string{"message": "success"}
-		render.JSON(w, r, obj)
-	})
-
-	r.Post("/product", func(w http.ResponseWriter, r *http.Request) {
-		var product product
-		product.ID = 5
-		render.DecodeJSON(r.Body, &product)
-		render.JSON(w, r, product)
+		render.Status(r, 201)
+		render.JSON(w, r, map[string]string{"id": id})
 	})
 
 	http.ListenAndServe(":3000", r)
-}
-
-func myMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		println("before")
-		next.ServeHTTP(w, r)
-		println("after")
-	})
-}
-func myMiddleware2(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		println("request ", r.Method, " url ", r.RequestURI)
-		next.ServeHTTP(w, r)
-		println("after 2")
-	})
 }
