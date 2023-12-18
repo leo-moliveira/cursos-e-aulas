@@ -2,7 +2,6 @@ package database
 
 import (
 	"emailn/internal/domain/campaign"
-	"errors"
 )
 
 type CampaignRepository struct {
@@ -11,6 +10,10 @@ type CampaignRepository struct {
 
 func (c *CampaignRepository) Save(campaign *campaign.Campaign) error {
 	c.campaigns = append(c.campaigns, *campaign)
-	//return nil
-	return errors.New(" an error")
+	return nil
+	//return errors.New(" an error")
+}
+
+func (c *CampaignRepository) Get() []campaign.Campaign {
+	return c.campaigns
 }
