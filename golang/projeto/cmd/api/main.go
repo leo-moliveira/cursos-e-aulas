@@ -22,7 +22,7 @@ func main() {
 	}
 
 	handler := endpoints.Handler{
-		CampaignService: campaignService,
+		CampaignService: &campaignService,
 	}
 
 	r.Post("/campaigns", endpoints.HandlerError(handler.CampaignPost))
