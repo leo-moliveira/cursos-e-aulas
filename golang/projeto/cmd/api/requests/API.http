@@ -1,0 +1,15 @@
+POST http://{{domain}}:{{port}}/product
+Content-Type: application/json
+
+{
+  "name": "mouse"
+}
+
+###
+#Successful test: check response status is 200
+GET http://{{domain}}:{{port}}
+Content-Type: application/json
+
+###
+#Successful test: check response status is 200
+GET http://{{domain}}:{{port}}/handler
