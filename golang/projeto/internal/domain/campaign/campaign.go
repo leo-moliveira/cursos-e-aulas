@@ -6,18 +6,18 @@ import (
 )
 
 type Contact struct {
-	ID         string
-	Email      string `validate:"email"`
-	CampaignID string
+	ID         string `gorm:"size:50;PRIMARY_KEY"`
+	Email      string `validate:"email" gorm:"size:100"`
+	CampaignID string `gorm:"size:50"`
 }
 
 type Campaign struct {
-	ID        string    `validate:"required"`
-	Name      string    `validate:"min=5,max=24"`
+	ID        string    `validate:"required" gorm:"size:50;PRIMARY_KEY"`
+	Name      string    `validate:"min=5,max=24" gorm:"size:100"`
 	CreatedAt time.Time `validate:"required"`
-	Content   string    `validate:"min=5,max=1024"`
+	Content   string    `validate:"min=5,max=1024" gorm:"size:1024"`
 	Contacts  []Contact `validate:"min=1,dive"`
-	Status    string
+	Status    string    `gorm:"size:20;DEFAULT:ACTIVE"`
 }
 
 func NewCampaign(name string, content string, emails []string) (*Campaign, error) {
