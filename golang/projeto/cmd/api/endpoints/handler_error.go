@@ -14,7 +14,7 @@ func HandlerError(endpointFunc EndpointFunc) http.HandlerFunc {
 		obj, status, err := endpointFunc(w, r)
 
 		if err != nil {
-			if errors.Is(err, internalErrors.ErrInternal) {
+			if errors.Is(err, internalerrors.ErrInternal) {
 				render.Status(r, 500)
 			} else {
 				render.Status(r, 400)

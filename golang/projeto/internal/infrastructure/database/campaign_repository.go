@@ -22,8 +22,16 @@ func (c *CampaignRepository) Get() ([]campaign.Campaign, error) {
 	return campaigns, tx.Error
 }
 
-func (c *CampaignRepository) GetByID(id string) (campaign.Campaign, error) {
+func (c *CampaignRepository) GetByID(id string) (*campaign.Campaign, error) {
 	var campaign campaign.Campaign
+	tx := c.Db.First(&campaign, "id = ?", "id = ?", id)
+	return &campaign, tx.Error
+}
+
+func (c *CampaignRepository) Update(id string) error {
+	var campaign campaign.Campaign
+
 	tx := c.Db.First(&campaign, "id = ?", id)
-	return campaign, tx.Error
+
+	//	campaign.Status = status
 }

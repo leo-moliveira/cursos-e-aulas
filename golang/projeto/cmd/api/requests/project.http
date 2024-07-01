@@ -8,3 +8,6 @@ POST http://{{domain}}:{{port}}/campaigns
 
 ###
 GET http://{{domain}}:{{port}}/campaigns
+
+###
+GET http://{{domain}}:{{port}}/campaign/{{id}}

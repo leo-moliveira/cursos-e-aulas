@@ -5,6 +5,13 @@ import (
 	"time"
 )
 
+const (
+	Pending  string = "PENDING"
+	Canceled string = "CANCELED"
+	Started  string = "STARTED"
+	Done     string = "DONE"
+)
+
 type Contact struct {
 	ID         string `gorm:"size:50;PRIMARY_KEY"`
 	Email      string `validate:"email" gorm:"size:100"`
@@ -17,7 +24,11 @@ type Campaign struct {
 	CreatedAt time.Time `validate:"required"`
 	Content   string    `validate:"min=5,max=1024" gorm:"size:1024"`
 	Contacts  []Contact `validate:"min=1,dive"`
-	Status    string    `gorm:"size:20;DEFAULT:ACTIVE"`
+	Status    string    `gorm:"size:20;DEFAULT:PENDING"`
+}
+
+func (c Campaign) Cancel() {
+	c.Status = Canceled
 }
 
 func NewCampaign(name string, content string, emails []string) (*Campaign, error) {
