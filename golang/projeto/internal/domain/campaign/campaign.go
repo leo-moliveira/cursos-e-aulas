@@ -1,7 +1,6 @@
 package campaign
 
 import (
-	"emailn/internal/domain/Contacts"
 	"time"
 )
 
@@ -11,11 +10,11 @@ type Campaign struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	Content   string
-	Contacts  []Contacts.Contact
+	Contacts  []Contact
 }
 
 func NewCampaign(name string, content string, emails []string) *Campaign {
-	contacts := make([]Contacts.Contact, len(emails))
+	contacts := make([]Contact, len(emails))
 
 	for index, email := range emails {
 		contacts[index].Email = email
