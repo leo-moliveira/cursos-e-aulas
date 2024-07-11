@@ -6,11 +6,14 @@ import (
 	"time"
 )
 
+var (
+	name    = "Campaign X"
+	content = "Body"
+	contact = []string{"email@e.com", "email2@e.com"}
+)
+
 func TestNewCampaign(t *testing.T) {
 	assert.New(t)
-	name := "Campaign X"
-	content := "Body"
-	contact := []string{"email@e.com", "email2@e.com"}
 
 	campaign := NewCampaign(name, content, contact)
 
@@ -21,20 +24,14 @@ func TestNewCampaign(t *testing.T) {
 
 func Test_NewCampaign_IDIsNotNil(t *testing.T) {
 	assert.New(t)
-	name := "Campaign X"
-	content := "Body"
-	contact := []string{"email@e.com", "email2@e.com"}
 
 	campaign := NewCampaign(name, content, contact)
 
 	assert.NotNil(t, campaign.ID)
 }
 
-func Test_NewCampaign_CreatedAtIsNotNil(t *testing.T) {
+func Test_NewCampaign_CreatedAtMustBeNow(t *testing.T) {
 	assert.New(t)
-	name := "Campaign X"
-	content := "Body"
-	contact := []string{"email@e.com", "email2@e.com"}
 	now := time.Now().Add(-time.Minute)
 
 	campaign := NewCampaign(name, content, contact)
