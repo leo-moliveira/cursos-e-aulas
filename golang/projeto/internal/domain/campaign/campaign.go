@@ -1,6 +1,7 @@
 package campaign
 
 import (
+	"github.com/rs/xid"
 	"time"
 )
 
@@ -21,7 +22,7 @@ func NewCampaign(name string, content string, emails []string) *Campaign {
 	}
 
 	return &Campaign{
-		ID:        "1",
+		ID:        xid.New().String(),
 		Name:      name,
 		Content:   content,
 		CreatedAt: time.Now(),
