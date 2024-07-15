@@ -1,5 +1,5 @@
 package campaign
 
 type Contact struct {
-	Email string
+	Email string `validate:"email"`
 }
