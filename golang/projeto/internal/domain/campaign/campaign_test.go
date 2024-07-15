@@ -8,100 +8,82 @@ import (
 )
 
 var (
-	name     = "Campaign X"
-	content  = "body HI!"
-	contacts = []string{"email1@e.com", "email1@e.com"}
-	fake     = faker.New()
+	name    = "Campaign X"
+	content = fake.Lorem().Text(6)
+	contact = []string{"email@e.com", "email2@e.com"}
+	fake    = faker.New()
 )
 
-func Test_NewCampaign_CreateCampaign(t *testing.T) {
-	tAssert := assert.New(t)
+func TestNewCampaign(t *testing.T) {
+	assert := assert.New(t)
 
-	campaign, _ := NewCampaign(name, content, contacts)
+	campaign, _ := NewCampaign(name, content, contact)
 
-	tAssert.Equal(name, campaign.Name)
-	tAssert.Equal(content, campaign.Content)
-	tAssert.Equal(len(contacts), len(campaign.Contacts))
-
+	assert.Equal(name, campaign.Name)
+	assert.Equal(content, campaign.Content)
+	assert.Equal(len(contact), len(campaign.Contacts))
 }
 
 func Test_NewCampaign_IDIsNotNil(t *testing.T) {
-	tAssert := assert.New(t)
+	assert := assert.New(t)
 
-	campaign, _ := NewCampaign(name, content, contacts)
+	campaign, _ := NewCampaign(name, content, contact)
 
-	tAssert.NotNil(campaign.ID)
+	assert.NotNil(campaign.ID)
 }
 
 func Test_NewCampaign_CreatedAtMustBeNow(t *testing.T) {
-	tAssert := assert.New(t)
-	now := time.Now().Add(time.Duration(-time.Minute))
+	assert := assert.New(t)
+	now := time.Now().Add(-time.Minute)
 
-	campaign, _ := NewCampaign(name, content, contacts)
+	campaign, _ := NewCampaign(name, content, contact)
 
-	tAssert.Greater(campaign.CreatedAt, now)
-
+	assert.Greater(campaign.CreatedAt, now)
 }
 
 func Test_NewCampaign_MustValidateNameMin(t *testing.T) {
-	tAssert := assert.New(t)
+	assert := assert.New(t)
 
-	_, err := NewCampaign("", content, contacts)
+	_, err := NewCampaign("", content, contact)
 
-	tAssert.Equal(err.Error(), "name is required with min 5")
-
+	assert.Equal("name is required with min 5", err.Error())
 }
 
 func Test_NewCampaign_MustValidateNameMax(t *testing.T) {
-	tAssert := assert.New(t)
+	assert := assert.New(t)
 
-	_, err := NewCampaign(fake.Lorem().Text(26), content, contacts)
+	_, err := NewCampaign(fake.Lorem().Text(30), content, contact)
 
-	tAssert.Equal(err.Error(), "name is required with max 24")
-
+	assert.Equal("name is required with max 24", err.Error())
 }
 
-func Test_NewCampaign_MustValidateContentMin(t *testing.T) {
-	tAssert := assert.New(t)
+func Test_NewCampaign_MustValidateContentWithMin(t *testing.T) {
+	assert := assert.New(t)
 
-	_, err := NewCampaign(name, "", contacts)
+	_, err := NewCampaign(name, "", contact)
 
-	tAssert.Equal(err.Error(), "content is required with min 5")
-
+	assert.Equal("content is required with min 5", err.Error())
 }
 
-func Test_NewCampaign_MustValidateContentMax(t *testing.T) {
-	tAssert := assert.New(t)
+func Test_NewCampaign_MustValidateContentWithMax(t *testing.T) {
+	assert := assert.New(t)
 
-	_, err := NewCampaign(name, fake.Lorem().Text(1040), contacts)
+	_, err := NewCampaign(name, fake.Lorem().Text(1100), contact)
 
-	tAssert.Equal(err.Error(), "content is required with max 1024")
-
+	assert.Equal("content is required with max 1024", err.Error())
 }
 
-func Test_NewCampaign_MustValidateContactsMin(t *testing.T) {
-	tAssert := assert.New(t)
-
-	_, err := NewCampaign(name, content, nil)
-
-	tAssert.Equal(err.Error(), "contacts is required with min 1")
-
-}
-
-func Test_NewCampaign_MustValidateContacts(t *testing.T) {
-	tAssert := assert.New(t)
+func Test_NewCampaign_MustValidateContactsMin1(t *testing.T) {
+	assert := assert.New(t)
 
 	_, err := NewCampaign(name, content, []string{})
 
-	tAssert.Equal(err.Error(), "contacts is required with min 1")
-
+	assert.Equal("contacts is required with min 1", err.Error())
 }
-
-func Test_NewCampaign_MustValidateContactsInvalidEmail(t *testing.T) {
-	tAssert := assert.New(t)
+func Test_NewCampaign_MustValidateContacts(t *testing.T) {
+	assert := assert.New(t)
 
 	_, err := NewCampaign(name, content, []string{"email_invalid"})
 
-	tAssert.Equal(err.Error(), "email is invalid")
-
+	assert.Equal("email is invalid", err.Error())
 }

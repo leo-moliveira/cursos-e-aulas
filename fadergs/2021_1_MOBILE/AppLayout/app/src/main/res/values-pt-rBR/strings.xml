@@ -1,0 +1,26 @@
+<resources>
+
+    <string name="app_name">AppLayout</string>
+
+    <string name="textNome">Nome: </string>
+    <string name="textNomeHint">Digite seu nome... </string>
+    <string name="textTelefone">Telefone: </string>
+    <string name="textTelefoneHint">Digite seu telefone... </string>
+
+    <string name="textTurno">Turno: </string>
+    <string name="textNanha">Manha </string>
+    <string name="textNoite">AppLayout</string>
+
+    <string name="textEstado">Estado: </string>
+    <string-array name="arrayEstados">
+        <item>Selecione...</item>
+        <item>PR</item>
+        <item>RS</item>
+        <item>SC</item>
+    </string-array>
+    <string name="textAtividades">Atividades:</string>
+    <string name="textCaminhada">Caminhada:</string>
+    <string name="textCorrida">Corrida:</string>
+
+
+</resources>

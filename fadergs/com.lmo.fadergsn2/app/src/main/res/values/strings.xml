@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">Fadergs N2</string>
+    <string name="raSubTitle">Create New Account</string>
+    <string name="raFullName">Full Name</string>
+    <string name="raMail">Email</string>
+    <string name="raPassword">Password</string>
+    <string name="raPasswordConfirm">Password Confirmation</string>
+    <string name="raBtnRegister">Register</string>
+    <string name="raAlRegister">Already have registration? <br />Login Here!</string>
+    <string name="raRequired">is required!</string>
+    <string name="emailCap">Email</string>
+    <string name="passwordCap">Password</string>
+    <string name="passwordConfirmationCap">Password Confirmation</string>
+    <string name="raPassConfError">Password and confirmation must be the same</string>
+    <string name="characters">characters</string>
+    <string name="raPassValidation">Password must contain more than</string>
+    <string name="loginConfirmation">User successfully logged in</string>
+    <string name="someError">Some error occurred</string>
+    <string name="registerConfirmation">User successfully created</string>
+    <string name="forgotPassword">Forgot Password?</string>
+    <string name="rpatvSubTitle">Reset your password</string>
+    <string name="rpaBtnReset">Reset</string>
+    <string name="ResetConfirmation">Sure you want to reset your password</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="passwordResetSucessSent">Password reset sent to your email</string>
+    <string name="notsent">will not be sent</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_logout">Logout</string>
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="archived_list">Archived Lists</string>
+    <string name="menu_form">New  Task</string>
+    <string name="newTask">New Task</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="send">Send</string>
+    <string name="taskCreated">Task created successfully</string>
+    <string name="failedTaskCreate">Failed to create task</string>
+    <string name="noTasks">Unable to find tasks for your user</string>
+    <string name="menu_subTasks">Sub Tasks</string>
+    <string name="newsubtask">New Sub Task</string>
+    <string name="noSubTasks">Unable to find sub tasks for your task</string>
+</resources>

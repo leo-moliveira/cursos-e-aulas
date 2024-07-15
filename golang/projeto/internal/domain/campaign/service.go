@@ -1,31 +1,22 @@
 package campaign
 
 import (
+	"emailn/internal"
 	"emailn/internal/contract"
-	"emailn/internal/internalErrors"
 )
 
-type Service interface {
-	Create(campaign contract.NewCampaign) (string, error)
-}
-
-type ServiceImp struct {
+type Service struct {
 	Repository Repository
 }
 
-func (s *ServiceImp) Create(newCampaign contract.NewCampaign) (string, error) {
-
-	campaign, err := NewCampaign(newCampaign.Name, newCampaign.Content, newCampaign.Emails)
-
+func (s *Service) Create(newCampaign contract.NewCampaign) (string, error) {
+	campaign, err := NewCampaign(newCampaign.Name, newCampaign.Content, newCampaign.Contacts)
 	if err != nil {
 		return "", err
 	}
-
 	err = s.Repository.Save(campaign)
-
 	if err != nil {
-		return "", internalErrors.ErrInternal
+		return "", internal.Err
 	}
-
 	return campaign.ID, nil
 }

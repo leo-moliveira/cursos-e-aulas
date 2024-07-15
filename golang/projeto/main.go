@@ -6,33 +6,24 @@ import (
 )
 
 func main() {
-	contacts := []campaign.Contact{{Email: ""}, {Email: "leo@leo.com.br"}}
-	campaignOBJ := campaign.Campaign{Name: "222222dddddddddddddddd333333333333d222333333333333322", Contacts: contacts}
+	campaign := campaign.Campaign{}
 	validate := validator.New()
-	err := validate.Struct(campaignOBJ)
-
+	err := validate.Struct(campaign)
 	if err == nil {
 		println("Nenhum erro")
 	} else {
-		validationErrors := err.(validator.ValidationErrors)
-
-		for _, v := range validationErrors {
-			message := v.StructField() + " is invalid: " + v.Tag()
-			switch v.Tag() {
+		validateErrors := err.(validator.ValidationErrors)
+		for _, value := range validateErrors {
+			switch value.Tag() {
 			case "required":
-				message = v.StructField() + " is required"
-				break
-			case "min":
-				message = v.StructField() + " is required with min " + v.Param()
-				break
-			case "max":
-				message = v.StructField() + " is required with max " + v.Param()
-				break
+				println(value.StructField() + " is required ")
 			case "email":
-				message = v.StructField() + " is invalid"
-				break
+				println(value.StructField() + " is invalid ")
+			case "min", "max":
+				println(value.StructField() + " is invalid with " + value.Tag() + ": " + value.Param())
+			default:
+				println(value.StructField() + " is invalid: " + value.Tag())
 			}
-			println(message)
 		}
 	}
 }

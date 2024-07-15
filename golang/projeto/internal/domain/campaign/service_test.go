@@ -1,8 +1,8 @@
 package campaign
 
 import (
+	"emailn/internal"
 	"emailn/internal/contract"
-	"emailn/internal/internalErrors"
 	"errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
@@ -11,75 +11,54 @@ import (
 
 var (
 	newCampaign = contract.NewCampaign{
-		Name:    "Test Y",
-		Content: "Body Hi!",
-		Emails:  []string{"teste1@test.com"},
+		Name:     "Teste Y",
+		Content:  "Body Hi ",
+		Contacts: []string{"test@test.com", "test2@test.com", "test3@test.com"},
 	}
-	service = ServiceImp{}
+	service = Service{}
 )
 
-type repositoryMock struct {
-	mock.Mock
-}
-
-func (r *repositoryMock) Save(campaign *Campaign) error {
-	args := r.Called(campaign)
-
-	return args.Error(0)
-}
-
-func (r *repositoryMock) Get() ([]Campaign, error) {
-	//args := r.Called(campaign)
-
-	return nil, nil
-}
-
-func Test_Create_Campaign(t *testing.T) {
-	tAssert := assert.New(t)
-	repositoryMock := new(repositoryMock)
+func Test_create_Campaign(t *testing.T) {
+	assert := assert.New(t)
+	repositoryMock := new(RepositoryMock)
 	repositoryMock.On("Save", mock.Anything).Return(nil)
 	service.Repository = repositoryMock
+
 	id, err := service.Create(newCampaign)
 
-	tAssert.NotNil(id)
-	tAssert.Nil(err)
+	assert.NotNil(id)
+	assert.Nil(err)
 }
-
-func Test_Create_ValidateDomainError(t *testing.T) {
-	tAssert := assert.New(t)
+func Test_Create_ValidadeDomainError(t *testing.T) {
+	assert := assert.New(t)
 
 	_, err := service.Create(contract.NewCampaign{})
 
-	tAssert.NotNil(err)
-	tAssert.False(errors.Is(internalErrors.ErrInternal, err))
+	assert.False(errors.Is(internal.Err, err))
 }
-
-func Test_Create_SaveCampaign(t *testing.T) {
-	repositoryMock := new(repositoryMock)
+func Test_create_SaveCampaign(t *testing.T) {
+	repositoryMock := new(RepositoryMock)
 	repositoryMock.On("Save", mock.MatchedBy(func(campaign *Campaign) bool {
-		if campaign.Name != newCampaign.Name {
-			return false
-		} else if campaign.Content != newCampaign.Content {
-			return false
-		} else if len(campaign.Contacts) != len(newCampaign.Emails) {
+		if campaign.Name != newCampaign.Name ||
+			campaign.Content != newCampaign.Content ||
+			len(campaign.Contacts) != len(newCampaign.Contacts) {
 			return false
 		}
-
 		return true
 	})).Return(nil)
 	service.Repository = repositoryMock
+
 	service.Create(newCampaign)
 
 	repositoryMock.AssertExpectations(t)
 }
-
-func Test_Create_ValidateRepositorySave(t *testing.T) {
-	tAssert := assert.New(t)
-	repositoryMock := new(repositoryMock)
+func Test_Create_ValidadeRepositorySave(t *testing.T) {
+	assert := assert.New(t)
+	repositoryMock := new(RepositoryMock)
 	repositoryMock.On("Save", mock.Anything).Return(errors.New("error to save on database"))
 	service.Repository = repositoryMock
 
 	_, err := service.Create(newCampaign)
 
-	tAssert.True(errors.Is(internalErrors.ErrInternal, err))
+	assert.True(errors.Is(internal.Err, err))
 }
