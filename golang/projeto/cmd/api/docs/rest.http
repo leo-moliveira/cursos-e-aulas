@@ -1,0 +1,11 @@
+### GET HOME
+GET http://localhost:3000/json
+
+###
+
+### POST PRODUCT
+POST http://localhost:3000/product
+
+{
+"name": "mouse"
+}
