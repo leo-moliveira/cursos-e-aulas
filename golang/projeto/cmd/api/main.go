@@ -1,6 +1,8 @@
 package main
 
 import (
+	"emailn/internal/contract"
+	"emailn/internal/domain/campaign"
 	"encoding/json"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -15,6 +17,7 @@ type product struct {
 
 func main() {
 	r := chi.NewRouter()
+	service := campaign.Service{}
 
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
@@ -52,6 +55,23 @@ func main() {
 		product.ID = 5
 
 		render.JSON(w, r, product)
+	})
+
+	r.Post("/campaigns", func(w http.ResponseWriter, r *http.Request) {
+		var campaign contract.NewCampaign
+		err := render.DecodeJSON(r.Body, &campaign)
+
+		id, err := service.Create(campaign)
+
+		if err != nil {
+			http.Error(w, err.Error(), 400)
+			render.JSON(w, r, map[string]string{"message": err.Error()})
+
+			return
+		}
+
+		render.Status(r, 201)
+		render.JSON(w, r, map[string]string{"id": id})
 	})
 
 	http.ListenAndServe(":3000", r)

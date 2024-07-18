@@ -9,3 +9,14 @@ POST http://localhost:3000/product
 {
 "name": "mouse"
 }
+
+### POST campaigns
+POST http://localhost:3000/campaigns
+
+{
+"name": "mouse 5",
+"content": "change password",
+"contacts": ["teste@teste.com.br"]
+}
+
+###
