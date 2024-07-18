@@ -1,9 +1,12 @@
 package main
 
 import (
+	"emailn/internal"
 	"emailn/internal/contract"
 	"emailn/internal/domain/campaign"
+	"emailn/internal/infrastructure/database"
 	"encoding/json"
+	"errors"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
@@ -17,7 +20,9 @@ type product struct {
 
 func main() {
 	r := chi.NewRouter()
-	service := campaign.Service{}
+	service := campaign.Service{
+		Repository: &database.Campaignepository{},
+	}
 
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
@@ -59,12 +64,16 @@ func main() {
 
 	r.Post("/campaigns", func(w http.ResponseWriter, r *http.Request) {
 		var campaign contract.NewCampaign
-		err := render.DecodeJSON(r.Body, &campaign)
+		render.DecodeJSON(r.Body, &campaign)
 
 		id, err := service.Create(campaign)
 
 		if err != nil {
-			http.Error(w, err.Error(), 400)
+			status := 400
+			if errors.Is(err, internal.Err) {
+				status = 500
+			}
+			http.Error(w, err.Error(), status)
 			render.JSON(w, r, map[string]string{"message": err.Error()})
 
 			return
