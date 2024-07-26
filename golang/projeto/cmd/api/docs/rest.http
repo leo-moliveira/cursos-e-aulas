@@ -14,9 +14,12 @@ POST http://localhost:3000/product
 POST http://localhost:3000/campaigns
 
 {
-"name": "mouse 5",
+"name": "mouse ",
 "content": "change password",
 "contacts": ["teste@teste.com.br"]
 }
+
+### GET campaigns
+GET http://localhost:3000/campaigns
 
 ###

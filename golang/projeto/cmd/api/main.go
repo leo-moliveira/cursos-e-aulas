@@ -1,12 +1,10 @@
 package main
 
 import (
-	"emailn/internal"
-	"emailn/internal/contract"
 	"emailn/internal/domain/campaign"
+	"emailn/internal/endpoints"
 	"emailn/internal/infrastructure/database"
 	"encoding/json"
-	"errors"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
@@ -20,8 +18,12 @@ type product struct {
 
 func main() {
 	r := chi.NewRouter()
-	service := campaign.Service{
+
+	campaignService := campaign.Service{
 		Repository: &database.Campaignepository{},
+	}
+	handler := endpoints.Handler{
+		CampaignService: campaignService,
 	}
 
 	r.Use(middleware.RequestID)
@@ -62,26 +64,9 @@ func main() {
 		render.JSON(w, r, product)
 	})
 
-	r.Post("/campaigns", func(w http.ResponseWriter, r *http.Request) {
-		var campaign contract.NewCampaign
-		render.DecodeJSON(r.Body, &campaign)
+	r.Post("/campaigns", handler.CampaignPost)
 
-		id, err := service.Create(campaign)
-
-		if err != nil {
-			status := 400
-			if errors.Is(err, internal.Err) {
-				status = 500
-			}
-			http.Error(w, err.Error(), status)
-			render.JSON(w, r, map[string]string{"message": err.Error()})
-
-			return
-		}
-
-		render.Status(r, 201)
-		render.JSON(w, r, map[string]string{"id": id})
-	})
+	r.Get("/campaigns", handler.CampaignGet)
 
 	http.ListenAndServe(":3000", r)
 }

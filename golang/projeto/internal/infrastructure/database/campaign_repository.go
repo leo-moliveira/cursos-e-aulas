@@ -10,3 +10,7 @@ func (c *Campaignepository) Save(campaign *campaign.Campaign) error {
 	c.campaigns = append(c.campaigns, *campaign)
 	return nil
 }
+
+func (c *Campaignepository) Get() []campaign.Campaign {
+	return c.campaigns
+}
