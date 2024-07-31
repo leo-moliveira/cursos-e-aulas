@@ -19,11 +19,11 @@ type product struct {
 func main() {
 	r := chi.NewRouter()
 
-	campaignService := campaign.Service{
+	campaignService := campaign.ServiceImp{
 		Repository: &database.Campaignepository{},
 	}
 	handler := endpoints.Handler{
-		CampaignService: campaignService,
+		CampaignService: &campaignService,
 	}
 
 	r.Use(middleware.RequestID)
