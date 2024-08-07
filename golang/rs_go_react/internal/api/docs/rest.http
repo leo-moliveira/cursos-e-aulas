@@ -1,0 +1,16 @@
+### POST CREATE ROOM
+POST http://localhost:8080/api/rooms
+
+{
+"theme": "test room2"
+}
+
+### WS
+WEBSOCKET ws://localhost:8080/subscribe/2df655fd-5bec-46e3-9c08-bd83b9e52d41
+
+### POST CREATE NEW MESSAGE
+POST http://localhost:8080/api/rooms/042583f7-623e-4718-9b7f-c654ec1fda47/messages
+
+{
+"message": "this is a teste message2"
+}
