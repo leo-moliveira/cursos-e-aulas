@@ -14,3 +14,7 @@ func (c *Campaignepository) Save(campaign *campaign.Campaign) error {
 func (c *Campaignepository) Get() ([]campaign.Campaign, error) {
 	return c.campaigns, nil
 }
+
+func (c *Campaignepository) GetBy(id string) (*campaign.Campaign, error) {
+	return nil, nil
+}

@@ -62,3 +62,17 @@ func Test_Create_ValidadeRepositorySave(t *testing.T) {
 
 	assert.True(errors.Is(internal.Err, err))
 }
+func Test_GetById_ReturnCampaign(t *testing.T) {
+	assert := assert.New(t)
+	campaign, _ := NewCampaign(newCampaign.Name, newCampaign.Content, newCampaign.Contacts)
+	repositoryMock := new(RepositoryMock)
+	repositoryMock.On("GetBy", mock.Anything).Return(campaign, nil)
+	service.Repository = repositoryMock
+
+	campaignReturned, _ := service.GetBy(campaign.ID)
+
+	assert.Equal(campaign.ID, campaignReturned.ID)
+	assert.Equal(campaign.Name, campaignReturned.Name)
+	assert.Equal(campaign.Content, campaignReturned.Content)
+	assert.Equal(campaign.Status, campaignReturned.Status)
+}

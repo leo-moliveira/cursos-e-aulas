@@ -15,3 +15,7 @@ func (r *RepositoryMock) Get() ([]Campaign, error) {
 	//args := r.Called(campaign)
 	return nil, nil
 }
+
+func (r *RepositoryMock) GetBy(id string) (*Campaign, error) {
+	return nil, nil
+}
